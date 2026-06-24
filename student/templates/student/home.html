@@ -1,0 +1,68 @@
+{% extends 'student/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h2>Welcome to {{ college_name }}</h2>
+        <h1>{{ campus_name }}</h1>
+        <p>Your comprehensive academic management portal. Access profiles, marks, attendance, fees, and feedback all in one place.</p>
+        {% if user.is_authenticated %}
+        <p class="welcome-user">Welcome, <strong>{{ user.username }}</strong>!</p>
+        <a href="{% url 'profile' %}" class="btn btn-primary">Go to Dashboard</a>
+        {% else %}
+        <div class="hero-buttons">
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary">Register</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <h2 class="section-title">Our Features</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <h3>Profile Management</h3>
+            <p>View and update your personal academic profile information with photo.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Academics</h3>
+            <p>Access your subject marks with auto-calculated total, percentage, and grade.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Attendance</h3>
+            <p>Track your attendance percentage and check eligibility status.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Fee Payment</h3>
+            <p>View fee structure, make payments, and track your payment history.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Student Feedback</h3>
+            <p>Submit your valuable feedback and suggestions to the administration.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="stat-card">
+        <h3>5000+</h3>
+        <p>Students</p>
+    </div>
+    <div class="stat-card">
+        <h3>50+</h3>
+        <p>Courses</p>
+    </div>
+    <div class="stat-card">
+        <h3>200+</h3>
+        <p>Faculty</p>
+    </div>
+    <div class="stat-card">
+        <h3>85%</h3>
+        <p>Satisfaction</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'student/base.html' %}
+{% block title %}Fee Payment{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Fee Payment</h2>
+</div>
+
+{% if fees %}
+{% for fee in fees %}
+<div class="semester-card">
+    <div class="semester-header">
+        <h3>{{ fee.fee_type }} - {{ fee.semester }}</h3>
+    </div>
+    <div class="fee-summary">
+        <div class="fee-item">
+            <span class="fee-label">Total Fee</span>
+            <span class="fee-value">₹{{ fee.total_fee }}</span>
+        </div>
+        <div class="fee-item">
+            <span class="fee-label">Paid Fee</span>
+            <span class="fee-value paid">₹{{ fee.paid_fee }}</span>
+        </div>
+        <div class="fee-item">
+            <span class="fee-label">Balance Fee</span>
+            <span class="fee-value {% if fee.balance_fee > 0 %}balance{% else %}paid{% endif %}">
+                ₹{{ fee.balance_fee }}
+            </span>
+        </div>
+    </div>
+    {% if fee.balance_fee > 0 %}
+    <div class="payment-action">
+        <a href="{% url 'make_payment' fee.id %}" class="btn btn-primary">Make Payment</a>
+    </div>
+    {% else %}
+    <div class="payment-action">
+        <span class="badge badge-success">Fully Paid</span>
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+
+<div class="view-history">
+    <a href="{% url 'payment_history' %}" class="btn btn-secondary">View Payment History</a>
+</div>
+{% else %}
+<div class="empty-state">
+    <h3>No Fee Records Found</h3>
+    <p>Your fee records will appear here once they are generated.</p>
+</div>
+{% endif %}
+{% endblock %}

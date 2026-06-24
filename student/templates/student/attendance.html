@@ -1,0 +1,47 @@
+{% extends 'student/base.html' %}
+{% block title %}Attendance{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Attendance Records</h2>
+</div>
+
+{% if records %}
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Total Classes</th>
+                <th>Attended</th>
+                <th>Absent</th>
+                <th>Percentage</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.subject }}</td>
+                <td>{{ record.total_classes }}</td>
+                <td>{{ record.attended_classes }}</td>
+                <td>{{ record.absent_classes }}</td>
+                <td>{{ record.percentage }}%</td>
+                <td>
+                    {% if record.status == 'Eligible' %}
+                    <span class="badge badge-success">Eligible</span>
+                    {% else %}
+                    <span class="badge badge-danger">Shortage</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <h3>No Attendance Records Found</h3>
+    <p>Your attendance records will appear here once they are updated.</p>
+</div>
+{% endif %}
+{% endblock %}

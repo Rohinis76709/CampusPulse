@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Pulse - {% block title %}Home{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'student/style.css' %}">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="{% static 'images/logo.png' %}" alt="Mother Teresa Institution Logo" style="height: 40px; width: auto; margin-right: 10px; vertical-align: middle;">
+                <div style="display: inline-block; vertical-align: middle;">
+                    <h1>Campus Pulse</h1>
+                    <span class="tagline">Mother Teresa Institution</span>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}" class="{% if '/profile/' in request.path %}active{% endif %}">Profile</a></li>
+                    <li><a href="{% url 'academics' %}" class="{% if '/academics/' in request.path %}active{% endif %}">Academics</a></li>
+                    <li><a href="{% url 'attendance' %}" class="{% if '/attendance/' in request.path %}active{% endif %}">Attendance</a></li>
+                    <li><a href="{% url 'fee' %}" class="{% if '/fee/' in request.path %}active{% endif %}">Fee Payment</a></li>
+                    <li><a href="{% url 'feedback' %}" class="{% if '/feedback/' in request.path %}active{% endif %}">Feedback</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-btn">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main content area -->
+    <main class="container main-content">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Campus Pulse - Mother Teresa Institution. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'student/script.js' %}"></script>
+</body>
+</html>

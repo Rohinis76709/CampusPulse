@@ -1,0 +1,55 @@
+{% extends 'student/base.html' %}
+{% block title %}Feedback{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Submit Feedback</h2>
+</div>
+
+<div class="form-container">
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<small class="error">{{ field.errors.0 }}</small>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-full">Submit Feedback</button>
+    </form>
+</div>
+
+{% if feedbacks %}
+<div class="section-divider">
+    <h3>Your Previous Feedback</h3>
+</div>
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fb in feedbacks %}
+            <tr>
+                <td>{{ fb.subject }}</td>
+                <td>{{ fb.message|truncatechars:60 }}</td>
+                <td>{{ fb.submitted_date|date:"d M Y" }}</td>
+                <td>
+                    {% if fb.is_resolved %}
+                    <span class="badge badge-success">Resolved</span>
+                    {% else %}
+                    <span class="badge badge-warning">Pending</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

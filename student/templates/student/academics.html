@@ -1,0 +1,80 @@
+{% extends 'student/base.html' %}
+{% block title %}Academics{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Academic Marks</h2>
+</div>
+
+{% if academics %}
+{% for academic in academics %}
+<div class="semester-card">
+    <div class="semester-header">
+        <h3>{{ academic.semester }}</h3>
+    </div>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks (Out of 100)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ academic.subject1_name }}</td>
+                    <td>{{ academic.subject1_marks }}</td>
+                </tr>
+                <tr>
+                    <td>{{ academic.subject2_name }}</td>
+                    <td>{{ academic.subject2_marks }}</td>
+                </tr>
+                <tr>
+                    <td>{{ academic.subject3_name }}</td>
+                    <td>{{ academic.subject3_marks }}</td>
+                </tr>
+                <tr>
+                    <td>{{ academic.subject4_name }}</td>
+                    <td>{{ academic.subject4_marks }}</td>
+                </tr>
+                <tr>
+                    <td>{{ academic.subject5_name }}</td>
+                    <td>{{ academic.subject5_marks }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="result-card">
+        <div class="result-item">
+            <span class="result-label">Total Marks</span>
+            <span class="result-value">{{ academic.total_marks }} / 500</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Percentage</span>
+            <span class="result-value">{{ academic.percentage|floatformat:2 }}%</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Grade</span>
+            <span class="result-value grade grade-{{ academic.grade|lower }}">{{ academic.grade }}</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Result</span>
+            <span class="result-value">
+                {% if academic.result == 'Pass' %}
+                <span class="badge badge-success">Pass</span>
+                {% else %}
+                <span class="badge badge-danger">Fail</span>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="empty-state">
+    <h3>No Academic Records Found</h3>
+    <p>Your academic records will appear here once they are published.</p>
+</div>
+{% endif %}
+{% endblock %}

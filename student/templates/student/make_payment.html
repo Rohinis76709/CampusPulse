@@ -1,0 +1,30 @@
+{% extends 'student/base.html' %}
+{% block title %}Make Payment{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Make Payment</h2>
+</div>
+
+<div class="form-container">
+    <div class="payment-details">
+        <p><strong>Fee Type:</strong> {{ fee.fee_type }}</p>
+        <p><strong>Semester:</strong> {{ fee.semester }}</p>
+        <p><strong>Total Fee:</strong> ₹{{ fee.total_fee }}</p>
+        <p><strong>Paid Fee:</strong> ₹{{ fee.paid_fee }}</p>
+        <p><strong>Balance Fee:</strong> ₹{{ fee.balance_fee }}</p>
+    </div>
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_amount">Amount to Pay (₹)</label>
+            <input type="number" name="amount" id="id_amount" step="0.01" min="1" max="{{ fee.balance_fee }}" required placeholder="Enter amount">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Pay Now</button>
+    </form>
+
+    <p class="form-footer">
+        <a href="{% url 'fee' %}">Back to Fee Details</a>
+    </p>
+</div>
+{% endblock %}

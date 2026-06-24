@@ -1,0 +1,51 @@
+{% extends 'student/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Student Profile</h2>
+</div>
+
+{% if student %}
+<!-- Profile Display Card -->
+<div class="profile-card">
+    <div class="profile-info">
+        <div class="profile-avatar">
+            {% if student.student_photo %}
+            <img src="{{ student.student_photo.url }}" alt="Photo">
+            {% else %}
+            <span class="avatar-text">{{ student.student_name|first }}</span>
+            {% endif %}
+        </div>
+        <div class="profile-details">
+            <h3>{{ student.student_name }}</h3>
+            <p><strong>Roll Number:</strong> {{ student.roll_number }}</p>
+            <p><strong>Register Number:</strong> {{ student.register_number }}</p>
+            <p><strong>Email:</strong> {{ student.email }}</p>
+            <p><strong>Phone Number:</strong> {{ student.phone_number }}</p>
+            <p><strong>Department:</strong> {{ student.department }}</p>
+            <p><strong>Year/Semester:</strong> {{ student.year_semester }}</p>
+            <p><strong>Section:</strong> {{ student.section }}</p>
+            <p><strong>Date of Birth:</strong> {{ student.date_of_birth|date:"d M Y" }}</p>
+            <p><strong>Address:</strong> {{ student.address }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Profile Edit Form -->
+<div class="form-container">
+    <h3>{% if student %}Update Profile{% else %}Create Profile{% endif %}</h3>
+    <form method="post" enctype="multipart/form-data" class="auth-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<small class="help-text">{{ field.help_text }}</small>{% endif %}
+            {% if field.errors %}<small class="error">{{ field.errors.0 }}</small>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-full">Save Profile</button>
+    </form>
+</div>
+{% endblock %}
